@@ -20,7 +20,7 @@
         MessengerExtensions.getSupportedFeatures(function success(result) {
             let features = result.supported_features;
             if (features.includes("context")) {
-                MessengerExtensions.getContext('<APP_ID>',
+                MessengerExtensions.getContext('235646627071813',
                     function success(thread_context) {
                         // success
                         document.getElementById("psid").value = thread_context.psid;
@@ -35,17 +35,23 @@
             // error retrieving supported features
             console.log(err);
         });
+
         document.getElementById('submitButton').addEventListener('click', () => {
-            MessengerExtensions.requestCloseBrowser(function success() {
-                console.log("Webview closing");
-            }, function error(err) {
+            MessengerExtensions.getUserID(function success(user_ids) {
+         
+            let psid = user_ids.psid;
+            document.getElementById("h1Text").textContent = psid;
+
+            }, function error(err, errorMessage) {      
                 console.log(err);
             });
+          
         });
     };
 
 </script>
 <form action="/optionspostback" method="get">
+    <h1 id="h1Text"></h1>
     <input type="hidden" name="psid" id="psid">
     <h3>Pillows</h3>
     <input type="radio" name="pillows" value="soft" checked>Soft<br>
@@ -58,6 +64,8 @@
     <input type="radio" name="view" value="sea" checked>Sea<br>
     <input type="radio" name="view" value="street">Street<br>
     <input type="submit" value="Submit" id="submitButton">
+
+   
 </form>
 </body>
 </html>
